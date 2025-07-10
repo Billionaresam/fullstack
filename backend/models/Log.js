@@ -1,23 +1,34 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js'; // adjust the path as needed
 
-const logSchema = new mongoose.Schema(
-  {
-    action: {
-      type: String,
-      required: true
-    },
-    actor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    },
-    metadata: Object,
-    target: String, // could be user ID, article ID, etc.
-    timestamp: {
-      type: Date,
-      default: Date.now
+// Since you are using PostgreSQL, you should use an ORM like Sequelize or TypeORM instead of Mongoose.
+// Here is an example using Sequelize:
+
+
+const Log = sequelize.define('Log', {
+  action: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  actor: {
+    type: DataTypes.INTEGER, // assuming User's primary key is integer
+    references: {
+      model: 'Users',
+      key: 'id'
     }
   },
-  { timestamps: true }
-);
+  metadata: {
+    type: DataTypes.JSON
+  },
+  target: {
+    type: DataTypes.STRING
+  },
+  timestamp: {
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW
+  }
+}, {
+  timestamps: true
+});
 
-export default mongoose.model('Log', logSchema);
+export default Log;

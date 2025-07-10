@@ -6,6 +6,9 @@ import Log from '../models/Log.js'; // ✅ NEW: logging
 // Upload avatar only
 export const uploadProfileImage = async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
     const imagePath = req.file.path;
     await User.findByIdAndUpdate(req.user.id, { profileImage: imagePath });
     res.json({ imagePath });

@@ -1,5 +1,4 @@
 const request = require('supertest');
-const mongoose = require('mongoose');
 const app = require('../server.js'); // Make sure this exports your Express app
 const User = require('../models/User.js');
 const bcrypt = require('bcryptjs');
@@ -12,7 +11,8 @@ describe('Auth: Login Flow', () => {
   });
 
   beforeEach(async () => {
-    await User.deleteMany();
+    // Clear users collection
+    await User.deleteMany({});
 
     const hashed = await bcrypt.hash('pass123', 10);
     activeUser = await User.create({

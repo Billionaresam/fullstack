@@ -9,6 +9,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
+    "@prisma/client": "^6.11.1",
     "archiver": "^7.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -18,10 +19,13 @@
     "helmet": "^8.1.0",
     "json2csv": "^6.0.0-alpha.2",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.3.1",
     "multer": "^2.0.1",
     "node-cron": "^4.1.1",
-    "nodemailer": "^7.0.3"
+    "nodemailer": "^7.0.3",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "prisma": "^6.11.1",
+    "sequelize": "^6.37.7"
   },
   "devDependencies": {
     "jest": "^29.7.0",

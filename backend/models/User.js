@@ -1,41 +1,40 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/database.js'; // adjust the path as needed
 
-const userSchema = new mongoose.Schema({
+const User = sequelize.define('User', {
   staffId: {
-    type: String,
-    required: true,
-    unique: true,
-    uppercase: true
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
   },
   password: {
-    type: String,
-    required: true
+    type: DataTypes.STRING,
+    allowNull: false
   },
   role: {
-    type: String,
-    enum: ['Editor', 'Publisher', 'Admin'],
-    default: 'Editor'
+    type: DataTypes.ENUM('Editor', 'Publisher', 'Admin'),
+    defaultValue: 'Editor'
   },
   profileImage: {
-    type: String
+    type: DataTypes.STRING
   },
   lastLogin: {
-    type: Date
+    type: DataTypes.DATE
   },
   firstLogin: {
-    type: Boolean,
-    default: true
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   },
   isActive: {
-    type: Boolean,
-    default: true
+    type: DataTypes.BOOLEAN,
+    defaultValue: true
   },
   resetToken: {
-    type: String
+    type: DataTypes.STRING
   },
   resetTokenExpires: {
-    type: Date
+    type: DataTypes.DATE
   }
 });
 
-export default mongoose.model('User', userSchema);
+export default User;
