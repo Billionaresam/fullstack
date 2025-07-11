@@ -1,18 +1,11 @@
-import mongoose from 'mongoose';
 import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-const connectDB = async () => {
-  try {
-    const sequelize = new Sequelize(process.env.PG_URI, {
-      dialect: 'postgres',
-      logging: false,
-    });
-    await sequelize.authenticate();
-    console.log('✅ PostgreSQL Connected');
-  } catch (err) {
-    console.error('PostgreSQL connection failed:', err.message);
-    process.exit(1);
-  }
-};
+dotenv.config();
 
-export default connectDB;
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  logging: false
+});
+
+export default sequelize;
