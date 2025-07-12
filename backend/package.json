@@ -1,5 +1,5 @@
 {
-  "name": "cms-backend",
+  "name": "backend",
   "version": "1.0.0",
   "type": "module",
   "description": "Backend system for CMS platform",
