@@ -45,7 +45,28 @@ const EditorDashboard = () => {
     setContent('');
     setImageFile(null);
     setPreviewUrl('');
-  };
+  };import { useState, useEffect } from 'react';
+import { apiFetcher } from '../utils/fetcher';
+import NavBar from '../components/NavBar';
+
+const EditorDashboard = () => {
+  const [articles, setArticles] = useState([]);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [imageFile, setImageFile] = useState(null);
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  useEffect(() => {
+    const loadArticles = async () => {
+      const res = await apiFetcher('/articles');
+      setArticles(res);
+    };
+    loadArticles();
+  }, []);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
 
   return (
     <>

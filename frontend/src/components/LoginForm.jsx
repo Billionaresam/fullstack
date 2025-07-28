@@ -56,7 +56,7 @@ const LoginForm = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
-      <input
+        <input
         type="password"
         placeholder="Password"
         value={password}
