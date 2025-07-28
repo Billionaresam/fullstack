@@ -30,43 +30,23 @@ const EditorDashboard = () => {
 
     let imageUrl = '';
     if (imageFile) {
-      // ⚠️ Replace this logic with actual upload to Cloudinary or similar service
-      // For now, simulate with placeholder or base64 if testing
+      // 📸 Replace with actual upload logic later (e.g., Cloudinary)
       imageUrl = previewUrl;
     }
 
     const newArticle = { title, content, imageUrl };
+
     await apiFetcher('/articles', {
       method: 'POST',
       body: JSON.stringify(newArticle),
     });
 
+    // ✅ Reset form after submit
     setTitle('');
     setContent('');
     setImageFile(null);
     setPreviewUrl('');
-  };import { useState, useEffect } from 'react';
-import { apiFetcher } from '../utils/fetcher';
-import NavBar from '../components/NavBar';
-
-const EditorDashboard = () => {
-  const [articles, setArticles] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [imageFile, setImageFile] = useState(null);
-  const [previewUrl, setPreviewUrl] = useState('');
-
-  useEffect(() => {
-    const loadArticles = async () => {
-      const res = await apiFetcher('/articles');
-      setArticles(res);
-    };
-    loadArticles();
-  }, []);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
+  };
 
   return (
     <>
@@ -97,7 +77,6 @@ const EditorDashboard = () => {
             required
           />
 
-          {/* 📸 Image Input */}
           <input
             type="file"
             accept="image/*"
@@ -105,7 +84,6 @@ const EditorDashboard = () => {
             className="mb-4"
           />
 
-          {/* 🖼️ Preview */}
           {previewUrl && (
             <img
               src={previewUrl}
