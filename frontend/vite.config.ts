@@ -4,5 +4,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // use '/' or '/fullstack/' if deploying to GitHub Pages
+  base: '/', // safe default for root deployment
 });
