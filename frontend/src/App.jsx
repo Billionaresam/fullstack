@@ -52,4 +52,3 @@ function App() {
 }
 
 export default App;
-<h1 className="text-4xl text-purple-600 font-bold">Tailwind is alive 🔥</h1>
