@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginForm from './components/LoginForm.jsx';
-import AdminDashboard from './pages/AdminDashboard.jsx';
-import EditorDashboard from './pages/EditorDashboard.jsx';
-import PublisherDashboard from './pages/PublisherDashboard.jsx';
-import ProtectedRoute from './components/ProtectedRoute.jsx';
-import Home from './pages/Home.jsx';
-import NotFound from './pages/NotFound.jsx';
+import LoginForm from './components/LoginForm.js';
+import AdminDashboard from './pages/AdminDashboard.js';
+import EditorDashboard from './pages/EditorDashboard.js';
+import PublisherDashboard from './pages/PublisherDashboard.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
+import Home from './pages/Home.js';
+import NotFound from './pages/NotFound.js';
 function App() {
   return (
     <Router>
