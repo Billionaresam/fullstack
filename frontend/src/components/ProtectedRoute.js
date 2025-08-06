@@ -5,10 +5,12 @@ const ProtectedRoute = ({ allowedRoles, children }) => {
   const token = getToken();
   const role = getUserRole();
 
+  // 🚫 Redirect if no token or role mismatch
   if (!token || !allowedRoles.includes(role)) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
+  // ✅ Authorized: render child component
   return children;
 };
 

@@ -1,9 +1,14 @@
 import nodemailer from 'nodemailer';
 
+const {
+  ADMIN_EMAIL = '',
+  ADMIN_EMAIL_PASS = ''
+} = process.env;
+
 export const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.ADMIN_EMAIL,
-    pass: process.env.ADMIN_EMAIL_PASS
-  }
+    user: ADMIN_EMAIL,
+    pass: ADMIN_EMAIL_PASS,
+  },
 });

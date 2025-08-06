@@ -6,15 +6,15 @@ import PublisherDashboard from './pages/PublisherDashboard.js';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import Home from './pages/Home.js';
 import NotFound from './pages/NotFound.js';
+
 function App() {
   return (
     <Router>
       <Routes>
-        {/* 🔐 Public Route */}
+        {/* 🔐 Public Routes */}
         <Route path="/login" element={<LoginForm />} />
-
-<Route path="/" element={<Home />} />
-<Route path="*" element={<NotFound />} />
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
 
         {/* 🛡️ Protected Routes by Role */}
         <Route
@@ -25,7 +25,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/editor"
           element={
@@ -34,7 +33,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/publisher"
           element={
@@ -44,7 +42,7 @@ function App() {
           }
         />
 
-        {/* 🔄 Default fallback (optional) */}
+        {/* 🔄 Default fallback */}
         <Route path="*" element={<LoginForm />} />
       </Routes>
     </Router>
