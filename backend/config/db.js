@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const {
-  DB_NAME = '',
-  DB_USER = '',
-  DB_PASSWORD = '',
-  DB_HOST = 'localhost',
-  DB_PORT = 5432,
+  DB_NAME ,
+  DB_USER ,
+  DB_PASSWORD ,
+  DB_HOST ,
+  DB_PORT ,
 } = process.env;
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
@@ -28,3 +28,4 @@ export const connectDB = async () => {
     console.error('[DB] Unable to connect:', error.message);
   }
 };
+
