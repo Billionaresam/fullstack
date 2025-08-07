@@ -18,7 +18,6 @@ function App() {
       // 🔐 Public Routes
       React.createElement(Route, { path: "/login", element: React.createElement(LoginForm) }),
       React.createElement(Route, { path: "/", element: React.createElement(Home) }),
-      React.createElement(Route, { path: "*", element: React.createElement(NotFound) }),
 
       // 🛡️ Protected Routes by Role
       React.createElement(Route, {
@@ -47,7 +46,7 @@ function App() {
       }),
 
       // 🔄 Default fallback
-      React.createElement(Route, { path: "*", element: React.createElement(LoginForm) })
+      React.createElement(Route, { path: "*", element: React.createElement(NotFound) })
     )
   );
 }
