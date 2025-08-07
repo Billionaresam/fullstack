@@ -1,3 +1,4 @@
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginForm from './components/LoginForm.js';
 import AdminDashboard from './pages/AdminDashboard.js';
@@ -8,44 +9,46 @@ import Home from './pages/Home.js';
 import NotFound from './pages/NotFound.js';
 
 function App() {
-  return (
-    <Router>
-      <Routes>
-        {/* 🔐 Public Routes */}
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
+  return React.createElement(
+    Router,
+    null,
+    React.createElement(
+      Routes,
+      null,
+      // 🔐 Public Routes
+      React.createElement(Route, { path: "/login", element: React.createElement(LoginForm) }),
+      React.createElement(Route, { path: "/", element: React.createElement(Home) }),
+      React.createElement(Route, { path: "*", element: React.createElement(NotFound) }),
 
-        {/* 🛡️ Protected Routes by Role */}
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={['Admin']}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/editor"
-          element={
-            <ProtectedRoute allowedRoles={['Editor']}>
-              <EditorDashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/publisher"
-          element={
-            <ProtectedRoute allowedRoles={['Publisher']}>
-              <PublisherDashboard />
-            </ProtectedRoute>
-          }
-        />
+      // 🛡️ Protected Routes by Role
+      React.createElement(Route, {
+        path: "/admin",
+        element: React.createElement(
+          ProtectedRoute,
+          { allowedRoles: ['Admin'] },
+          React.createElement(AdminDashboard)
+        )
+      }),
+      React.createElement(Route, {
+        path: "/editor",
+        element: React.createElement(
+          ProtectedRoute,
+          { allowedRoles: ['Editor'] },
+          React.createElement(EditorDashboard)
+        )
+      }),
+      React.createElement(Route, {
+        path: "/publisher",
+        element: React.createElement(
+          ProtectedRoute,
+          { allowedRoles: ['Publisher'] },
+          React.createElement(PublisherDashboard)
+        )
+      }),
 
-        {/* 🔄 Default fallback */}
-        <Route path="*" element={<LoginForm />} />
-      </Routes>
-    </Router>
+      // 🔄 Default fallback
+      React.createElement(Route, { path: "*", element: React.createElement(LoginForm) })
+    )
   );
 }
 
