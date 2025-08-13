@@ -15,14 +15,11 @@ const LoginForm = () => {
     try {
       const response = await apiFetcher('/login', {
         method: 'POST',
-        body: JSON.stringify({ email, password }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: JSON.stringify({ email, password })
       });
 
       if (response.success) {
-        navigate('/dashboard'); // 🔁 Change this to your actual route
+        navigate('/dashboard'); // ✅ Change this route if needed
       } else {
         setError(response.message || 'Invalid login credentials.');
       }

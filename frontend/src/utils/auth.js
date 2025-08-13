@@ -1,12 +1,20 @@
-export const getToken = () => localStorage.getItem('token');
+export function getToken() {
+  return localStorage.getItem('token');
+}
 
-export const getUserRole = () => {
+export function getUserRole() {
   const token = getToken();
   if (!token) return null;
+
   try {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.role;
-  } catch {
+    // Decode JWT payload (base64)
+    const base64Payload = token.split('.')[1];
+    const decodedPayload = atob(base64Payload);
+    const payload = JSON.parse(decodedPayload);
+
+    return payload.role || null;
+  } catch (error) {
+    console.error('Invalid token format:', error);
     return null;
   }
-};
+}

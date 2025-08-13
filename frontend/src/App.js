@@ -16,8 +16,14 @@ function App() {
       Routes,
       null,
       // 🔐 Public Routes
-      React.createElement(Route, { path: "/login", element: React.createElement(LoginForm) }),
-      React.createElement(Route, { path: "/", element: React.createElement(Home) }),
+      React.createElement(Route, {
+        path: "/login",
+        element: React.createElement(LoginForm, null)
+      }),
+      React.createElement(Route, {
+        path: "/",
+        element: React.createElement(Home, null)
+      }),
 
       // 🛡️ Protected Routes by Role
       React.createElement(Route, {
@@ -25,7 +31,7 @@ function App() {
         element: React.createElement(
           ProtectedRoute,
           { allowedRoles: ['Admin'] },
-          React.createElement(AdminDashboard)
+          React.createElement(AdminDashboard, null)
         )
       }),
       React.createElement(Route, {
@@ -33,7 +39,7 @@ function App() {
         element: React.createElement(
           ProtectedRoute,
           { allowedRoles: ['Editor'] },
-          React.createElement(EditorDashboard)
+          React.createElement(EditorDashboard, null)
         )
       }),
       React.createElement(Route, {
@@ -41,12 +47,15 @@ function App() {
         element: React.createElement(
           ProtectedRoute,
           { allowedRoles: ['Publisher'] },
-          React.createElement(PublisherDashboard)
+          React.createElement(PublisherDashboard, null)
         )
       }),
 
       // 🔄 Default fallback
-      React.createElement(Route, { path: "*", element: React.createElement(NotFound) })
+      React.createElement(Route, {
+        path: "*",
+        element: React.createElement(NotFound, null)
+      })
     )
   );
 }

@@ -1,17 +1,26 @@
-import { Navigate } from 'react-router-dom';
-import { getToken, getUserRole } from '../utils/auth';
+import { getToken, getUserRole } from '../utils/auth.js';
 
-const ProtectedRoute = ({ allowedRoles, children }) => {
+/**
+ * Protects a route in plain JS by checking token & allowed roles
+ * @param {string[]} allowedRoles - Roles allowed to access the page
+ * @param {string} redirectPath - Path to redirect if unauthorized
+ */
+export function protectedRoute(allowedRoles = [], redirectPath = '/login') {
   const token = getToken();
   const role = getUserRole();
 
-  // 🚫 Redirect if no token or role mismatch
-  if (!token || !allowedRoles.includes(role)) {
-    return <Navigate to="/login" replace />;
+  // 🚫 No token → redirect
+  if (!token) {
+    window.location.href = redirectPath;
+    return false;
   }
 
-  // ✅ Authorized: render child component
-  return children;
-};
+  // 🚫 Role mismatch → redirect
+  if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
+    window.location.href = redirectPath;
+    return false;
+  }
 
-export default ProtectedRoute;
+  // ✅ Authorized
+  return true;
+}
