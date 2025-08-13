@@ -4,21 +4,32 @@ import NavBar from '../components/NavBar';
 
 const PublisherDashboard = () => {
   const [pendingArticles, setPendingArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadPending = async () => {
-      const res = await apiFetcher('/articles?status=Draft');
-      setPendingArticles(res);
+      try {
+        const res = await apiFetcher('/articles?status=Draft');
+        setPendingArticles(res);
+      } catch (err) {
+        console.error('Error loading pending articles:', err);
+      } finally {
+        setLoading(false);
+      }
     };
     loadPending();
   }, []);
 
   const handleDecision = async (id, decision) => {
-    await apiFetcher(`/articles/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status: decision }),
-    });
-    setPendingArticles(prev => prev.filter(article => article.id !== id));
+    try {
+      await apiFetcher(`/articles/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status: decision }),
+      });
+      setPendingArticles(prev => prev.filter(article => article.id !== id));
+    } catch (err) {
+      console.error(`Error updating article ${id}:`, err);
+    }
   };
 
   return (
@@ -28,7 +39,9 @@ const PublisherDashboard = () => {
         <h2 className="text-2xl font-bold mb-4">📚 Publisher Dashboard</h2>
         <p className="mb-6 text-gray-600">Review and approve submitted articles.</p>
 
-        {pendingArticles.length === 0 ? (
+        {loading ? (
+          <p className="text-gray-500">Loading articles...</p>
+        ) : pendingArticles.length === 0 ? (
           <p className="text-green-600">✅ No pending articles right now</p>
         ) : (
           <div className="space-y-4">
