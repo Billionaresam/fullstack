@@ -1,4 +1,4 @@
-import { getUserRole } from '../utils/auth';
+import { getUserRole } from '../utils/auth.js';
 import { useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
