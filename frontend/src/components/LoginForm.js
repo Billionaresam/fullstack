@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { apiFetcher } from '../utils/fetcher';
 import { useNavigate } from 'react-router-dom';
+import { apiFetcher } from '../utils/fetcher'; // make sure this exists
 
 const LoginForm = () => {
   const [email, setEmail] = useState('');
@@ -15,14 +15,12 @@ const LoginForm = () => {
     try {
       const response = await apiFetcher('/login', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
       });
 
       if (response.success) {
-        navigate('/dashboard'); // ✅ Change this route if needed
+        navigate('/dashboard'); // Change route if needed
       } else {
         setError(response.message || 'Invalid login credentials.');
       }
