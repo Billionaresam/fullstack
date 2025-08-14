@@ -15,6 +15,9 @@ const LoginForm = () => {
     try {
       const response = await apiFetcher('/login', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({ email, password })
       });
 
@@ -28,7 +31,7 @@ const LoginForm = () => {
       setError('Something went wrong. Please try again.');
     }
   };
-/**this the problem am facing when running npm run build */
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <form
