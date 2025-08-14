@@ -28,7 +28,7 @@ const LoginForm = () => {
       setError('Something went wrong. Please try again.');
     }
   };
-
+/**this the problem am facing when running npm run build */
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <form
