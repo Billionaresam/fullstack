@@ -25,7 +25,7 @@ function App() {
         element: React.createElement(Home, null)
       }),
 
-      // Protected Routes (pass wrapped element via `element` prop)
+      // Protected Routes
       React.createElement(Route, {
         path: "/admin",
         element: React.createElement(ProtectedRoute, {
