@@ -1,60 +1,19 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoginForm from "./components/LoginForm.js";
-import AdminDashboard from "./pages/AdminDashboard.js";
-import EditorDashboard from "./pages/EditorDashboard.js";
-import PublisherDashboard from "./pages/PublisherDashboard.js";
-import ProtectedRoute from "./components/ProtectedRoute.js";
-import Home from "./pages/Home.js";
-import NotFound from "./pages/NotFound.js";
+import { Navigate } from "react-router-dom";
 
-function App() {
-  return React.createElement(
-    Router,
-    null,
-    React.createElement(
-      Routes,
-      null,
-      // Public Routes
-      React.createElement(Route, {
-        path: "/login",
-        element: React.createElement(LoginForm, null)
-      }),
-      React.createElement(Route, {
-        path: "/",
-        element: React.createElement(Home, null)
-      }),
+function ProtectedRoute({ allowedRoles, element }) {
+  // Example: Replace with your own auth logic
+  const userRole = localStorage.getItem("role");
 
-      // Protected Routes
-      React.createElement(Route, {
-        path: "/admin",
-        element: React.createElement(ProtectedRoute, {
-          allowedRoles: ["Admin"],
-          element: React.createElement(AdminDashboard, null)
-        })
-      }),
-      React.createElement(Route, {
-        path: "/editor",
-        element: React.createElement(ProtectedRoute, {
-          allowedRoles: ["Editor"],
-          element: React.createElement(EditorDashboard, null)
-        })
-      }),
-      React.createElement(Route, {
-        path: "/publisher",
-        element: React.createElement(ProtectedRoute, {
-          allowedRoles: ["Publisher"],
-          element: React.createElement(PublisherDashboard, null)
-        })
-      }),
+  if (!userRole) {
+    return React.createElement(Navigate, { to: "/login" });
+  }
 
-      // Fallback
-      React.createElement(Route, {
-        path: "*",
-        element: React.createElement(NotFound, null)
-      })
-    )
-  );
+  if (!allowedRoles.includes(userRole)) {
+    return React.createElement(Navigate, { to: "/" });
+  }
+
+  return element;
 }
 
-export default App;
+export default ProtectedRoute;
