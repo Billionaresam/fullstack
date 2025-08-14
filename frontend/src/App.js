@@ -1,12 +1,12 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import LoginForm from './components/LoginForm.js';
-import AdminDashboard from './pages/AdminDashboard.js';
-import EditorDashboard from './pages/EditorDashboard.js';
-import PublisherDashboard from './pages/PublisherDashboard.js';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import Home from './pages/Home.js';
-import NotFound from './pages/NotFound.js';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import LoginForm from "./components/LoginForm.js";
+import AdminDashboard from "./pages/AdminDashboard.js";
+import EditorDashboard from "./pages/EditorDashboard.js";
+import PublisherDashboard from "./pages/PublisherDashboard.js";
+import ProtectedRoute from "./components/ProtectedRoute.js";
+import Home from "./pages/Home.js";
+import NotFound from "./pages/NotFound.js";
 
 function App() {
   return React.createElement(
@@ -15,7 +15,7 @@ function App() {
     React.createElement(
       Routes,
       null,
-      // 🔐 Public Routes
+      // Public Routes
       React.createElement(Route, {
         path: "/login",
         element: React.createElement(LoginForm, null)
@@ -25,12 +25,12 @@ function App() {
         element: React.createElement(Home, null)
       }),
 
-      // 🛡️ Protected Routes by Role
+      // Protected Routes
       React.createElement(Route, {
         path: "/admin",
         element: React.createElement(
           ProtectedRoute,
-          { allowedRoles: ['Admin'] },
+          { allowedRoles: ["Admin"] },
           React.createElement(AdminDashboard, null)
         )
       }),
@@ -38,7 +38,7 @@ function App() {
         path: "/editor",
         element: React.createElement(
           ProtectedRoute,
-          { allowedRoles: ['Editor'] },
+          { allowedRoles: ["Editor"] },
           React.createElement(EditorDashboard, null)
         )
       }),
@@ -46,12 +46,12 @@ function App() {
         path: "/publisher",
         element: React.createElement(
           ProtectedRoute,
-          { allowedRoles: ['Publisher'] },
+          { allowedRoles: ["Publisher"] },
           React.createElement(PublisherDashboard, null)
         )
       }),
 
-      // 🔄 Default fallback
+      // Fallback
       React.createElement(Route, {
         path: "*",
         element: React.createElement(NotFound, null)
