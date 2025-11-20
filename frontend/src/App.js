@@ -1,19 +1,30 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute"; // your component
 
-function ProtectedRoute({ allowedRoles, element }) {
-  // Example: Replace with your own auth logic
-  const userRole = localStorage.getItem("role");
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
 
-  if (!userRole) {
-    return React.createElement(Navigate, { to: "/login" });
-  }
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
 
-  if (!allowedRoles.includes(userRole)) {
-    return React.createElement(Navigate, { to: "/" });
-  }
+        {/* Public home page */}
+        <Route path="/" element={<Home />} />
 
-  return element;
+        {/* Protected admin page */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={['admin']} element={<Admin />} />
+          }
+        />
+      </Routes>
+    </Router>
+  );
 }
 
-export default ProtectedRoute;
+export default App;
