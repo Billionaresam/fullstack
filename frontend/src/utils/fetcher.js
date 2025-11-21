@@ -1,10 +1,14 @@
 // utils/fetcher.js
-export const apiFetcher = async (url, options = {}) => {
+
+const backendUrl =
+  import.meta.env.VITE_BACKEND_URL || 'https://fullstack-waxv.onrender.com';
+
+export const apiFetcher = async (endpoint, options = {}) => {
   try {
-    const res = await fetch(url, {
+    const res = await fetch(`${backendUrl}${endpoint}`, {
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // include cookies/session if needed
-      ...options
+      credentials: 'include',
+      ...options,
     });
 
     if (!res.ok) {

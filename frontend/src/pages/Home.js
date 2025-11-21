@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { apiFetcher } from "../utils/fetcher";   // ✅ REAL fetcher imported
 
 const categoriesList = ["All", "Technology", "Health", "Education"];
 
@@ -7,15 +8,15 @@ const Home = () => {
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Fetch articles
+  // Fetch articles from backend
   useEffect(() => {
-    const apiFetcher = async (endpoint) => {
-      const res = await fetch(endpoint);
-      return res.json();
-    };
     async function loadPublished() {
-      const res = await apiFetcher("/articles?status=Approved");
-      setArticles(res);
+      try {
+        const res = await apiFetcher("/articles?status=Approved"); // ✅ FIXED
+        setArticles(res);
+      } catch (err) {
+        console.error("Failed loading articles:", err);
+      }
     }
     loadPublished();
   }, []);
@@ -30,7 +31,7 @@ const Home = () => {
         activeCategory === "All" || article.category === activeCategory
     );
 
-  // Navigation function
+  // Navigation
   const navigate = (path) => {
     window.location.href = path;
   };
@@ -51,6 +52,7 @@ const Home = () => {
         value: searchTerm,
         onChange: (e) => setSearchTerm(e.target.value)
       }),
+
       // Categories
       React.createElement(
         "div",
@@ -67,6 +69,7 @@ const Home = () => {
           )
         )
       ),
+
       // Articles
       React.createElement(
         "div",
@@ -102,6 +105,7 @@ const Home = () => {
               )
             )
       ),
+
       // Navigation buttons
       React.createElement(
         "div",
@@ -123,6 +127,7 @@ const Home = () => {
           )
         )
       ),
+
       // Footer
       React.createElement("footer", { key: "footer", className: "mt-12 text-xs text-gray-500" }, "Built by Billionare • Powered by Vite, Tailwind & PostgreSQL")
     ]

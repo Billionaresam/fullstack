@@ -3,17 +3,25 @@ import { apiFetcher } from '../utils/fetcher';
 import NavBar from '../components/NavBar';
 import React from 'react';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
+
 function EditorDashboard() {
   const [articles, setArticles] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [imageFile, setImageFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const loadArticles = async () => {
-      const res = await apiFetcher('/articles');
-      setArticles(res);
+      try {
+        const res = await apiFetcher('/articles');
+        setArticles(res);
+      } catch (err) {
+        setError('Failed to load articles');
+      }
     };
     loadArticles();
   }, []);
@@ -28,18 +36,42 @@ function EditorDashboard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let imageUrl = previewUrl || '';
-    const newArticle = { title, content, imageUrl };
+    setLoading(true);
+    setError(null);
 
-    await apiFetcher('/articles', {
-      method: 'POST',
-      body: JSON.stringify(newArticle),
-    });
+    try {
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      if (imageFile) {
+        formData.append('image', imageFile);
+      }
 
-    setTitle('');
-    setContent('');
-    setImageFile(null);
-    setPreviewUrl('');
+      const response = await fetch(`${backendUrl}/articles`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Error: ${response.status} - ${text}`);
+      }
+
+      // Optionally reload articles or show success message here
+      const newArticle = await response.json();
+      setArticles((prev) => [newArticle, ...prev]);
+
+      // Reset form
+      setTitle('');
+      setContent('');
+      setImageFile(null);
+      setPreviewUrl('');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return React.createElement(
@@ -50,6 +82,14 @@ function EditorDashboard() {
       'div',
       { className: 'p-6 max-w-3xl mx-auto' },
       React.createElement('h2', { className: 'text-2xl font-bold mb-4' }, '📝 Editor Dashboard'),
+
+      error &&
+        React.createElement(
+          'div',
+          { className: 'mb-4 p-3 bg-red-100 text-red-700 rounded' },
+          error
+        ),
+
       React.createElement(
         'form',
         { onSubmit: handleSubmit, className: 'bg-white border p-6 rounded shadow mb-8' },
@@ -83,8 +123,11 @@ function EditorDashboard() {
           }),
         React.createElement(
           'button',
-          { className: 'bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200' },
-          'Submit Article'
+          {
+            className: `bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-200`,
+            disabled: loading,
+          },
+          loading ? 'Submitting...' : 'Submit Article'
         )
       ),
       React.createElement('h4', { className: 'text-lg font-semibold mb-2' }, '📂 Your Drafts'),

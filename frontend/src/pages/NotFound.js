@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { apiFetcher } from "../utils/fetcher"; // import real fetcher
 
 const categoriesList = ["All", "Technology", "Health", "Education"];
 
-const Home = () => {
+const NotFound = () => {
   const [articles, setArticles] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
 
   // Fetch articles
   useEffect(() => {
-    const apiFetcher = async (endpoint) => {
-      const res = await fetch(endpoint);
-      return res.json();
-    };
     async function loadPublished() {
-      const res = await apiFetcher("/articles?status=Approved");
-      setArticles(res);
+      try {
+        const res = await apiFetcher("/articles?status=Approved");
+        setArticles(res);
+      } catch (err) {
+        console.error("Failed loading articles:", err);
+      }
     }
     loadPublished();
   }, []);
@@ -183,4 +184,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default NotFound;
