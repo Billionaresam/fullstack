@@ -1,26 +1,21 @@
-import { getToken, getUserRole } from '../utils/auth.js';
+import React from "react";
+import { protectedRoute } from "../utils/auth.js";
 
 /**
- * Protects a route in plain JS by checking token & allowed roles
- * @param {string[]} allowedRoles - Roles allowed to access the page
- * @param {string} redirectPath - Path to redirect if unauthorized
+ * React component that wraps your plain JS protectedRoute logic
+ * @param {Array} allowedRoles - roles allowed to access this route
+ * @param {JSX.Element} element - component to render if authorized
  */
-export function protectedRoute(allowedRoles = [], redirectPath = '/login') {
-  const token = getToken();
-  const role = getUserRole();
+export default function ProtectedRoute({ allowedRoles = [], element }) {
+  // Check authorization using your JS function
+  const isAuthorized = protectedRoute(allowedRoles);
 
-  // 🚫 No token → redirect
-  if (!token) {
-    window.location.href = redirectPath;
-    return false;
+  // If not authorized, don't render the element (or you can return null)
+  if (!isAuthorized) {
+    // Optionally, render a redirect or a message here
+    return null;
   }
 
-  // 🚫 Role mismatch → redirect
-  if (allowedRoles.length > 0 && !allowedRoles.includes(role)) {
-    window.location.href = redirectPath;
-    return false;
-  }
-
-  // ✅ Authorized
-  return true;
+  // Authorized: render the element
+  return element;
 }

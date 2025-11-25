@@ -18,3 +18,14 @@ export function getUserRole() {
     return null;
   }
 }
+
+/**
+ * Checks if the current user's role is included in allowedRoles
+ * @param {string[]} allowedRoles - Array of roles allowed to access
+ * @returns {boolean} true if allowed, false otherwise
+ */
+export function protectedRoute(allowedRoles = []) {
+  const role = getUserRole();
+  if (!role) return false;
+  return allowedRoles.includes(role);
+}

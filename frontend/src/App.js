@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./ProtectedRoute"; // your component
+import ProtectedRoute from "./components/ProtectedRoute.js"; // your component
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Admin from "./pages/Admin";
+import Home from "./pages/Home.js";
+import Login from "./components/LoginForm.js";
+import Admin from "./pages/AdminDashboard.js";
 
 function App() {
   return (
